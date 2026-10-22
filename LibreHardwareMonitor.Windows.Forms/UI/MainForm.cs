@@ -340,6 +340,9 @@ public sealed partial class MainForm : Form
 
         authWebServerMenuItem.Checked = _settings.GetValue("authenticationEnabled", false);
 
+        UserOption allowRemoteControl = new("allowRemoteControlMenuItem", false, allowRemoteControlMenuItem, _settings);
+        allowRemoteControl.Changed += delegate { Server.AllowRemoteControl = allowRemoteControl.Value; };
+
         _logSensors = new UserOption("logSensorsMenuItem", false, logSensorsMenuItem, _settings);
 
         _loggingInterval = new UserRadioGroup("loggingInterval",

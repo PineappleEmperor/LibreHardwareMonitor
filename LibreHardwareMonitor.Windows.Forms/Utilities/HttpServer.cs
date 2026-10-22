@@ -70,6 +70,8 @@ public class HttpServer
 
     public bool AuthEnabled { get; set; }
 
+    public bool AllowRemoteControl { get; set; }
+
     public string ListenerIp { get; set; }
 
     public int ListenerPort { get; set; }
@@ -333,6 +335,13 @@ public class HttpServer
         return System.Text.Json.JsonSerializer.Serialize(result);
     }
 
+    //POST requests and "action=Set" queries can change fan and pump speeds.
+    private static bool IsRemoteControlRequest(HttpListenerRequest request)
+    {
+        return request.HttpMethod == "POST" ||
+               string.Equals(HttpUtility.ParseQueryString(request.Url.Query)["action"], "Set", StringComparison.OrdinalIgnoreCase);
+    }
+
     private async Task HandleContextAsync(HttpListenerContext context)
     {
         HttpListenerRequest request = context.Request;
@@ -351,7 +360,12 @@ public class HttpServer
             }
         }
 
-        if (authenticated)
+        if (authenticated && !AllowRemoteControl && IsRemoteControlRequest(request))
+        {
+            context.Response.StatusCode = 403;
+            await SendResponseAsync(context.Response, "{\"result\":\"fail\",\"message\":\"Remote control is disabled\"}", "application/json");
+        }
+        else if (authenticated)
         {
             switch (request.HttpMethod)
             {

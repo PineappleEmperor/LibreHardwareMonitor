@@ -152,6 +152,7 @@ namespace LibreHardwareMonitor.Windows.Forms.UI
             this.runWebServerMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.serverInterfacePortMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.authWebServerMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.allowRemoteControlMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.treeContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -1044,7 +1045,8 @@ namespace LibreHardwareMonitor.Windows.Forms.UI
             this.webMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.runWebServerMenuItem,
             this.serverInterfacePortMenuItem,
-            this.authWebServerMenuItem});
+            this.authWebServerMenuItem,
+            this.allowRemoteControlMenuItem});
             this.webMenuItem.Name = "webMenuItem";
             this.webMenuItem.Size = new System.Drawing.Size(221, 22);
             this.webMenuItem.Text = "Remote Web Server";
@@ -1068,6 +1070,12 @@ namespace LibreHardwareMonitor.Windows.Forms.UI
             this.authWebServerMenuItem.Size = new System.Drawing.Size(153, 22);
             this.authWebServerMenuItem.Text = "Authentication";
             this.authWebServerMenuItem.Click += new System.EventHandler(this.AuthWebServerMenuItem_Click);
+            //
+            // allowRemoteControlMenuItem
+            //
+            this.allowRemoteControlMenuItem.Name = "allowRemoteControlMenuItem";
+            this.allowRemoteControlMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.allowRemoteControlMenuItem.Text = "Allow Remote Control";
             //
             // helpMenuItem
             //
@@ -1303,6 +1311,7 @@ namespace LibreHardwareMonitor.Windows.Forms.UI
         private ToolStripRadioButtonMenuItem timeWindow12hMenuItem;
         private ToolStripRadioButtonMenuItem timeWindow24hMenuItem;
         private System.Windows.Forms.ToolStripMenuItem authWebServerMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem allowRemoteControlMenuItem;
         private System.Windows.Forms.ToolStripMenuItem psuMenuItem;
         private System.Windows.Forms.ToolStripMenuItem batteryMenuItem;
         private System.ComponentModel.BackgroundWorker backgroundUpdater;
