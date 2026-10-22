@@ -17,6 +17,7 @@ internal sealed class Octo : Hardware
     private readonly Sensor[] _voltages = new Sensor[9];
     private readonly Sensor[] _currents = new Sensor[8];
     private readonly Sensor[] _powers = new Sensor[8];
+    private readonly Sensor[] _flows = new Sensor[1];
 
     public Octo(HidDevice dev, ISettings settings) : base("Octo", new Identifier(dev), settings)
     {
@@ -66,6 +67,10 @@ internal sealed class Octo : Hardware
                 _powers[i] = new Sensor($"Fan #{i + 1}", i, SensorType.Power, this, Array.Empty<ParameterDescription>(), settings);
                 ActivateSensor(_powers[i]);
             }
+
+            // Initialize the flow sensor
+            _flows[0] = new Sensor("Flow", 0, SensorType.Flow, this, Array.Empty<ParameterDescription>(), settings);
+            ActivateSensor(_flows[0]);
         }
     }
 
@@ -128,6 +133,8 @@ internal sealed class Octo : Hardware
         _powers[5].Value = GetConvertedValue(OctoDataIndexes.FAN_POWER_6) / 100f; // Fan 6 power
         _powers[6].Value = GetConvertedValue(OctoDataIndexes.FAN_POWER_7) / 100f; // Fan 7 power
         _powers[7].Value = GetConvertedValue(OctoDataIndexes.FAN_POWER_8) / 100f; // Fan 8 power
+
+        _flows[0].Value = GetConvertedValue(OctoDataIndexes.FLOW) / 10f; // Flow
     }
 
     private sealed class OctoDataIndexes
@@ -175,6 +182,8 @@ internal sealed class Octo : Hardware
         public const int FAN_CURRENT_6 = 194;
         public const int FAN_CURRENT_7 = 207;
         public const int FAN_CURRENT_8 = 220;
+
+        public const int FLOW = 123;
     }
 
     private ushort? GetConvertedValue(int index)
